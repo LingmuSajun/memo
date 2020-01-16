@@ -17,20 +17,16 @@
 
 <main>
 <h2>Practice</h2>
-<?php
-require('dbconnect.php');
+<pre>
+	<?php
+	require('dbconnect.php');
 
-$memos = $db->query('SELECT * FROM memos ORDER BY id DESC');
-?>
-
-<article>
-	<?php while($memo = $memos->fetch()): ?>
-		<p><a href="memo.php?id=<?php print($memo['id']); ?>"><?php print(mb_substr($memo['memo'], 0, 50)); ?></a></p>
-		<time><?php print($memo['created_at']); ?></time>
-		<hr>
-	<?php endwhile; ?>
-</article>
-
+	$statement = $db->prepare('INSERT INTO memos SET memo =?, created_at=NOW()');
+	$statement->bindParam(1, $_POST['memo']);
+	$statement->execute(array($_POST['memo']));
+	echo 'メッセージが登録されました';
+	?>
+</pre>
 </main>
 </body>
 </html>
